@@ -25,6 +25,9 @@
     <Filter Include="deps\imgui\backends">
       <UniqueIdentifier>{1505917f-11a5-43c6-bae9-a598afe61955}</UniqueIdentifier>
     </Filter>
+    <Filter Include="deps\implot">
+      <UniqueIdentifier>{e281ab8b-45f4-4fa7-b5e5-5dcd9aae8daa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,6 +87,12 @@
     <ClInclude Include="..\deps\imgui\backends\imgui_impl_win32.h">
       <Filter>deps\imgui\backends</Filter>
     </ClInclude>
+    <ClInclude Include="..\deps\implot\implot.h">
+      <Filter>deps\implot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\implot\implot_internal.h">
+      <Filter>deps\implot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">
@@ -133,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="..\deps\imgui\backends\imgui_impl_win32.cpp">
       <Filter>deps\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\implot\implot.cpp">
+      <Filter>deps\implot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\implot\implot_items.cpp">
+      <Filter>deps\implot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
