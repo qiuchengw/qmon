@@ -172,9 +172,9 @@ void CCpuUsage::__LoopForProcesses() {
             m_mapProcessMap.insert(std::make_pair(pe32.th32ProcessID, tp));
 
             if(usage >= 0) {
-                for (size_t i = 0; i < _countof(m_pairMaxProcesses); ++i) {
-                    if (tp.cpu_usage > m_pairMaxProcesses[i].second.cpu_usage) {
-                        for (size_t j = _countof(m_pairMaxProcesses) - 1; j > i; --j) {
+                for(size_t i = 0; i < _countof(m_pairMaxProcesses); ++i) {
+                    if(tp.cpu_usage > m_pairMaxProcesses[i].second.cpu_usage) {
+                        for(size_t j = _countof(m_pairMaxProcesses) - 1; j > i; --j) {
                             m_pairMaxProcesses[j] = m_pairMaxProcesses[j - 1];
                         }
                         m_pairMaxProcesses[i] = std::make_pair(pe32.th32ProcessID, tp);

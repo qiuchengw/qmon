@@ -8,4 +8,4 @@
 @REM -U 移除括号两边不必要的空格
 @REM -p 在操作符两边插入空格
 @REM -f 在两行不相干代码间插入空行
-for /R %%f in (*.cpp;*.c;*.h) do (astyle.exe -f -p -U --style=java --indent=spaces=4 "%%f")
+for /R %%f in (*.cpp;*.c;*.h) do (astyle.exe -p -U --style=java --indent=spaces=4 "%%f")

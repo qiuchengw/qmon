@@ -72,6 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\deps;$(SolutionDir)\deps\imgui;D:\codes\qmon\deps\imgui;$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)\deps;$(SolutionDir)\deps\imgui;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -95,6 +97,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,6 +154,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\deps\imgui\backends\imgui_impl_dx9.h" />
+    <ClInclude Include="..\deps\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="..\deps\imgui\imconfig.h" />
+    <ClInclude Include="..\deps\imgui\imgui.h" />
+    <ClInclude Include="..\deps\imgui\imgui_internal.h" />
     <ClInclude Include="..\deps\sysrc\AMD0FTemperature.h" />
     <ClInclude Include="..\deps\sysrc\AMD10Temperature.h" />
     <ClInclude Include="..\deps\sysrc\AMDTemperature.h" />
@@ -167,6 +175,12 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\deps\imgui\backends\imgui_impl_dx9.cpp" />
+    <ClCompile Include="..\deps\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\deps\sysrc\AMD0FTemperature.cpp" />
     <ClCompile Include="..\deps\sysrc\AMD10Temperature.cpp" />
     <ClCompile Include="..\deps\sysrc\AMDTemperature.cpp" />

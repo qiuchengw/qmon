@@ -19,6 +19,12 @@
     <Filter Include="deps\sysrc">
       <UniqueIdentifier>{4e43634a-30af-49cb-a02e-b9288dccbbd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="deps\imgui">
+      <UniqueIdentifier>{8d48842e-5215-424a-83d8-d097db15b55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\imgui\backends">
+      <UniqueIdentifier>{1505917f-11a5-43c6-bae9-a598afe61955}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -63,6 +69,21 @@
     <ClInclude Include="..\deps\sysrc\Temperature.h">
       <Filter>deps\sysrc</Filter>
     </ClInclude>
+    <ClInclude Include="..\deps\imgui\imconfig.h">
+      <Filter>deps\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\imgui\imgui.h">
+      <Filter>deps\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\imgui\imgui_internal.h">
+      <Filter>deps\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\imgui\backends\imgui_impl_dx9.h">
+      <Filter>deps\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\imgui\backends\imgui_impl_win32.h">
+      <Filter>deps\imgui\backends</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">
@@ -94,6 +115,24 @@
     </ClCompile>
     <ClCompile Include="..\deps\sysrc\Temperature.cpp">
       <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\imgui.cpp">
+      <Filter>deps\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\imgui_draw.cpp">
+      <Filter>deps\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\imgui_tables.cpp">
+      <Filter>deps\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\imgui_widgets.cpp">
+      <Filter>deps\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>deps\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>deps\imgui\backends</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
