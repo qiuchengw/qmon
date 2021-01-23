@@ -18,18 +18,15 @@ void run_data_thread() {
             // ...
         }
 
-        double idx = 0;
         // !!!!data的访问是非线程安全，但是无所谓，偷点懒
         while(!_data_thread_stop) {
             mem.Update();
 
-            idx++;
-            data::_mem.str = mem.ToLongString();
             // 刷新内存占用
             data::_mem.max_gb = Bytes2GB(mem.phys_total_bytes());
             auto tm_now = ImGui::GetTime();
-            data::_mem.used_gb.AddPoint(idx, Bytes2GB(mem.phys_used_bytes()));
-            // data::_mem.used_gb.AddPoint(idx, (uint64_t)idx % 50);
+            data::_mem.phys_used_gb.AddPoint(tm_now, Bytes2GB(mem.phys_used_bytes()));
+            data::_mem.page_used_gb.AddPoint(tm_now, Bytes2GB(mem.page_used_bytes()));
             mem.CopyProcessT(data::_mem.max_proc, sizeof(data::_mem.max_proc) / sizeof(data::_mem.max_proc[0]));
 
             std::this_thread::sleep_for(std::chrono::milliseconds(500));

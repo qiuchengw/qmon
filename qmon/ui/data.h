@@ -25,24 +25,23 @@ struct ScrollingBuffer {
     }
 
     void AddPoint(float x, float y) {
-        if (d.size() < max_n) {
+        if(d.size() < max_n) {
             d.push_back(ImVec2(x, y));
-        }
-        else {
+        } else {
             d[offset] = ImVec2(x, y);
             offset = (offset + 1) % max_n;
         }
     }
 
     ImVec2 last() const {
-        if (Empty()) {
+        if(Empty()) {
             return ImVec2(0, 0);
         }
 
-        if (d.size() < max_n) {
+        if(d.size() < max_n) {
             return d[d.size() - 1];
         }
-        if (offset == 0) {
+        if(offset == 0) {
             return d[offset];
         }
         return d[offset - 1];
@@ -59,12 +58,14 @@ struct ScrollingBuffer {
 // 内存使用率
 struct MemMetric {
     const char* xlabel = "timeline";
-    const char* ylabel = "MB";
-    uint64_t max_gb = 0; // 大小
-    std::string str;
+    const char* ylabel = "GB";
+    float max_gb = 0; // 大小
 
-    // 历史使用的大小
-    ScrollingBuffer used_gb;
+    // 物理内存历史使用的大小
+    ScrollingBuffer phys_used_gb;
+
+    // 物理内存历史使用的大小
+    ScrollingBuffer page_used_gb;
 
     // 当前的状态
     MEMORYSTATUSEX status;

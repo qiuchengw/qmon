@@ -29,6 +29,10 @@ public:
         return m_cur.ullTotalPhys * m_cur.dwMemoryLoad / 100;
     }
 
+    double page_used_bytes() const {
+        return m_cur.ullTotalPageFile - m_cur.ullAvailPageFile;
+    }
+
     const std::string ToLongString()const {
         std::ostringstream ret;
         ret << "ava:" << phys_available_bytes()
