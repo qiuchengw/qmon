@@ -14,7 +14,7 @@
 #include "ui/ui_mem.h"
 
 namespace ImPlot {
-    void ShowDemoWindow(bool* p_open /* = NULL */);
+void ShowDemoWindow(bool* p_open /* = NULL */);
 }
 
 // Data
@@ -128,7 +128,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
         ImPlot::ShowDemoWindow(NULL);
 
         // mem
-        if (uicfg::_cfg.show_mem) {
+        if(uicfg::_cfg.show_mem) {
             ui::ShowMemUsage();
         }
 
