@@ -1,14 +1,10 @@
 ﻿#include "MemoryUsage.h"
 #include<TlHelp32.h>
 #include<Psapi.h>
-#include<sstream>
-#include<iomanip>
 #include"Log.h"
 
 CMemoryUsage::CMemoryUsage()
-    : m_dwMin(101)
-    , m_dwMax(0)
-    , m_hToken(nullptr)
+    : m_hToken(nullptr)
     , m_bNotAllAssigned(false) {
     LOGOUT("CMemoryUsage构造");
 }
@@ -46,41 +42,17 @@ bool CMemoryUsage::Init() {
     return true;
 }
 
-const double CMemoryUsage::GetValue()const {
-    return m_dwCur;
-}
-
 void CMemoryUsage::Update() {
+    m_cur.dwLength = sizeof(m_cur);
     if(!GlobalMemoryStatusEx(&m_cur)) {
         LOGERR("GlobalMemoryStatusEx", GetLastError());
         return;
     }
-
-    if(m_cur.dwMemoryLoad > m_dwMax)
-        m_dwMax = m_cur.dwMemoryLoad;
-
-    if(m_cur.dwMemoryLoad < m_dwMin)
-        m_dwMin = m_cur.dwMemoryLoad;
-
     __LoopForProcesses();
 }
 
 void CMemoryUsage::Reset() {
-    m_dwMin = 101;
-    m_dwMax = 0;
-    m_dwCur = 0;
-}
-
-const std::wstring CMemoryUsage::__Bytes2String(unsigned long long sz)const {
-    std::wostringstream ret;
-
-    if(sz < 1024) ret << sz << L" B";
-    else if(sz < 1024 * 1024) ret << std::setprecision(2) << std::fixed << sz / 1024.0 << L" KB";
-    else if(sz < 1024 * 1024 * 1024)ret << std::setprecision(2) << std::fixed << sz / 1024.0 / 1024.0 << L" MB";
-    else if(sz < 1024ULL * 1024 * 1024 * 1024)ret << std::setprecision(2) << std::fixed << sz / 1024.0 / 1024.0 / 1024.0 << L" GB";
-    else ret << std::setprecision(2) << std::fixed << sz / 1024.0 / 1024.0 / 1024.0 / 1024.0 << L" TB";
-
-    return ret.str();
+    ZeroMemory(&m_cur, sizeof(m_cur));
 }
 
 void CMemoryUsage::__LoopForProcesses() {

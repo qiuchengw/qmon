@@ -23,7 +23,7 @@
     <ProjectGuid>{2D611CE9-6D4A-4CB4-9CD4-119BC8E43715}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>qmon</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -180,6 +180,7 @@
     <ClInclude Include="ui\data.h" />
     <ClInclude Include="ui\data_thread.h" />
     <ClInclude Include="ui\ui_mem.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\imgui\backends\imgui_impl_dx9.cpp" />
@@ -202,13 +203,6 @@
     <ClCompile Include="..\deps\sysrc\MemoryUsage.cpp" />
     <ClCompile Include="..\deps\sysrc\Temperature.cpp" />
     <ClCompile Include="qmon.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="qmon.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="qmon.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,8 @@
 #pragma once
 #include "IMonitor.h"
 #include<Windows.h>
+#include<sstream>
+#include<iomanip>
 
 // 进程信息
 struct ProcessT{
@@ -15,12 +17,23 @@ public:
     CMemoryUsage();
     ~CMemoryUsage();
 
-    const double GetValue()const;
-    const double Max()const {
-        return m_dwMax;
+    double phys_total_bytes() const {
+        return m_cur.ullTotalPhys;
     }
-    const double Min()const {
-        return m_dwMin;
+
+    double phys_available_bytes() const {
+        return m_cur.ullAvailPhys;
+    }
+
+    double phys_used_bytes() const {
+        return m_cur.ullTotalPhys * m_cur.dwMemoryLoad / 100;
+    }
+
+    const std::string ToLongString()const {
+        std::ostringstream ret;
+        ret << "ava:" << phys_available_bytes()
+            << " - used" << phys_used_bytes();
+        return ret.str();
     }
 
     const MEMORYSTATUSEX &metric() {
@@ -42,10 +55,8 @@ public:
     void Reset();
 private:
     void __LoopForProcesses();
-    const std::wstring __Bytes2String(unsigned long long)const;
 
 private:
-    DWORD m_dwMin, m_dwMax;
     MEMORYSTATUSEX m_cur;
     ProcessT m_maxProcesses[3];
     HANDLE m_hToken;
