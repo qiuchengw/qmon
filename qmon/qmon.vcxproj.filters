@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="deps">
+      <UniqueIdentifier>{03767f0b-8f1c-427d-881f-e4cdae6d5508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\sysrc">
+      <UniqueIdentifier>{4e43634a-30af-49cb-a02e-b9288dccbbd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,10 +33,67 @@
     <ClInclude Include="qmon.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\deps\sysrc\AMD0FTemperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\AMD10Temperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\AMDTemperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\CpuTemperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\CpuUsage.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\IMonitor.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\IntelTemperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\Log.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\MemoryUsage.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\sysrc\Temperature.h">
+      <Filter>deps\sysrc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\AMD0FTemperature.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\AMD10Temperature.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\AMDTemperature.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\CpuTemperature.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\CpuUsage.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\IntelTemperature.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\Log.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\MemoryUsage.cpp">
+      <Filter>deps\sysrc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\sysrc\Temperature.cpp">
+      <Filter>deps\sysrc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

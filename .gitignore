@@ -37,3 +37,4 @@
 **/.vs
 *.user
 *.db
+*.orig

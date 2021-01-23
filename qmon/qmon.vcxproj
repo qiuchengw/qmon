@@ -151,12 +151,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\deps\sysrc\AMD0FTemperature.h" />
+    <ClInclude Include="..\deps\sysrc\AMD10Temperature.h" />
+    <ClInclude Include="..\deps\sysrc\AMDTemperature.h" />
+    <ClInclude Include="..\deps\sysrc\CpuTemperature.h" />
+    <ClInclude Include="..\deps\sysrc\CpuUsage.h" />
+    <ClInclude Include="..\deps\sysrc\IMonitor.h" />
+    <ClInclude Include="..\deps\sysrc\IntelTemperature.h" />
+    <ClInclude Include="..\deps\sysrc\Log.h" />
+    <ClInclude Include="..\deps\sysrc\MemoryUsage.h" />
+    <ClInclude Include="..\deps\sysrc\Temperature.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="qmon.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\deps\sysrc\AMD0FTemperature.cpp" />
+    <ClCompile Include="..\deps\sysrc\AMD10Temperature.cpp" />
+    <ClCompile Include="..\deps\sysrc\AMDTemperature.cpp" />
+    <ClCompile Include="..\deps\sysrc\CpuTemperature.cpp" />
+    <ClCompile Include="..\deps\sysrc\CpuUsage.cpp" />
+    <ClCompile Include="..\deps\sysrc\IntelTemperature.cpp" />
+    <ClCompile Include="..\deps\sysrc\Log.cpp" />
+    <ClCompile Include="..\deps\sysrc\MemoryUsage.cpp" />
+    <ClCompile Include="..\deps\sysrc\Temperature.cpp" />
     <ClCompile Include="qmon.cpp" />
   </ItemGroup>
   <ItemGroup>
