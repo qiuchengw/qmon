@@ -1,12 +1,21 @@
-﻿#include "../deps/imgui/imgui.h"
-#include "../deps/imgui/backends/imgui_impl_dx9.h"
-#include "../deps/imgui/backends/imgui_impl_win32.h"
-#include <d3d9.h>
+﻿#include <d3d9.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
 
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_dx9.h"
+#include "imgui/backends/imgui_impl_win32.h"
+#include "implot/implot.h"
 #pragma comment(lib, "d3d9.lib")
+
+// ui
+#include "ui/data_thread.h"
+#include "ui/ui_mem.h"
+
+namespace ImPlot {
+    void ShowDemoWindow(bool* p_open /* = NULL */);
+}
 
 // Data
 static LPDIRECT3D9              g_pD3D = NULL;
@@ -49,6 +58,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -92,6 +102,9 @@ int wWinMain(_In_ HINSTANCE hInstance,
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    // 数据刷新线程
+    data::run_data_thread();
+
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
@@ -111,6 +124,13 @@ int wWinMain(_In_ HINSTANCE hInstance,
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+
+        ImPlot::ShowDemoWindow(NULL);
+
+        // mem
+        if (uicfg::_cfg.show_mem) {
+            ui::ShowMemUsage();
+        }
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
@@ -171,6 +191,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
 
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
     CleanupDeviceD3D();

@@ -8,7 +8,6 @@
 CMemoryUsage::CMemoryUsage()
     : m_dwMin(101)
     , m_dwMax(0)
-    , m_dwCur(0)
     , m_hToken(nullptr)
     , m_bNotAllAssigned(false) {
     LOGOUT("CMemoryUsage构造");
@@ -47,48 +46,21 @@ bool CMemoryUsage::Init() {
     return true;
 }
 
-const std::basic_string<TCHAR> CMemoryUsage::ToString()const {
-    std::basic_ostringstream<TCHAR> ret;
-    ret << _T("内存使用率:") << std::setw(6) << m_dwCur << _T("％");
-    return ret.str();
-}
-
-const std::wstring CMemoryUsage::ToLongString()const {
-    std::wostringstream ret;
-    ret << L"内存最大使用率:" << std::setw(3) << m_dwMax
-        << L"%\n内存最小使用率:" << std::setw(3) << m_dwMin
-        << L"%\n内存使用率前三的进程\n"
-        << std::setw(5) << L"进程ID"
-        << std::setw(8) << L"工作集使用量"
-        << L"\t进程名" << std::endl;
-
-    for(auto & proc : m_maxProcesses)
-        ret << std::setw(6) << proc.pid
-            << std::setw(12) << __Bytes2String(proc.size)
-            << L'\t' << proc.name << std::endl;
-
-    return ret.str();
-}
-
 const double CMemoryUsage::GetValue()const {
     return m_dwCur;
 }
 
 void CMemoryUsage::Update() {
-    MEMORYSTATUSEX msex = { sizeof(MEMORYSTATUSEX) };
-
-    if(!GlobalMemoryStatusEx(&msex)) {
+    if(!GlobalMemoryStatusEx(&m_cur)) {
         LOGERR("GlobalMemoryStatusEx", GetLastError());
         return;
     }
 
-    m_dwCur = msex.dwMemoryLoad;
+    if(m_cur.dwMemoryLoad > m_dwMax)
+        m_dwMax = m_cur.dwMemoryLoad;
 
-    if(m_dwCur > m_dwMax)
-        m_dwMax = m_dwCur;
-
-    if(m_dwCur < m_dwMin)
-        m_dwMin = m_dwCur;
+    if(m_cur.dwMemoryLoad < m_dwMin)
+        m_dwMin = m_cur.dwMemoryLoad;
 
     __LoopForProcesses();
 }

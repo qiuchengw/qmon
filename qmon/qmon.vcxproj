@@ -176,15 +176,21 @@
     <ClInclude Include="qmon.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="ui\cfg.h" />
+    <ClInclude Include="ui\data.h" />
+    <ClInclude Include="ui\data_thread.h" />
+    <ClInclude Include="ui\ui_mem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\imgui\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="..\deps\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="..\deps\imgui\imgui.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\deps\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\deps\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\deps\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\deps\implot\implot.cpp" />
+    <ClCompile Include="..\deps\implot\implot_demo.cpp" />
     <ClCompile Include="..\deps\implot\implot_items.cpp" />
     <ClCompile Include="..\deps\sysrc\AMD0FTemperature.cpp" />
     <ClCompile Include="..\deps\sysrc\AMD10Temperature.cpp" />

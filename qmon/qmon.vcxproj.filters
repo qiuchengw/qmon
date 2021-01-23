@@ -28,6 +28,9 @@
     <Filter Include="deps\implot">
       <UniqueIdentifier>{e281ab8b-45f4-4fa7-b5e5-5dcd9aae8daa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\ui">
+      <UniqueIdentifier>{8a176949-4a10-4084-9606-503a1b1f2297}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -93,6 +96,18 @@
     <ClInclude Include="..\deps\implot\implot_internal.h">
       <Filter>deps\implot</Filter>
     </ClInclude>
+    <ClInclude Include="ui\ui_mem.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\data.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\cfg.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\data_thread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">
@@ -148,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="..\deps\implot\implot_items.cpp">
       <Filter>deps\implot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\implot\implot_demo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\imgui\imgui_demo.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
