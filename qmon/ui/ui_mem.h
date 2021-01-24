@@ -56,7 +56,7 @@ void ShowMemUsage() {
             std::string text = MemUsageText(data::_mem);
             // 抵消掉文字自动根据pos上下左右居中的偏移
             auto text_offset = ImGui::CalcTextSize(text.c_str()) * 0.5f;
-            ImPlot::PushStyleColor(ImPlotCol_InlayText, ImVec4(0.75, 1, 0, 1));
+            ImPlot::PushStyleColor(ImPlotCol_InlayText, uicfg::_cfg.color_plot_inlay_text);
             ImPlot::PlotText(text.c_str(), x_history + 1, data::_mem.max_gb * 0.95f, false, text_offset);
             ImPlot::PopStyleColor();
 

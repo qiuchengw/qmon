@@ -12,5 +12,6 @@ struct Config {
 
     // styles
     float fill_alpha = 0.5f;
+    ImVec4 color_plot_inlay_text = ImVec4(0.75, 1, 0, 1);
 } _cfg;
 }

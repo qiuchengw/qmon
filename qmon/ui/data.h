@@ -78,6 +78,7 @@ struct CPUMetric {
     int cpu_count = 1;
 
     // ÎÂ¶È
+    bool has_tempture_feature = true;
     float cpu_tempture = 0.f;
     float cpu_max_tempture = 0.f;
     float cpu_min_tempture = 0.f;

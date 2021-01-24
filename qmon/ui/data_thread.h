@@ -26,7 +26,7 @@ void run_data_thread() {
         }
 
         CCpuTemperature cpu_temp;
-        cpu_temp.Init();
+        data::_cpu.has_tempture_feature = cpu_temp.Init();
 
         // !!!!data的访问是非线程安全，但是无所谓，偷点懒
         while(!_data_thread_stop) {
@@ -47,9 +47,11 @@ void run_data_thread() {
             cpu_usage.CopyProcessT(data::_cpu.max_proc, _countof(data::_cpu.max_proc));
 
             // 刷新cpu温度
-            data::_cpu.cpu_max_tempture = cpu_temp.MaxTempture();
-            data::_cpu.cpu_min_tempture = cpu_temp.MinTempture();
-            data::_cpu.cpu_tempture = cpu_temp.GetValue();
+            if(data::_cpu.has_tempture_feature) {
+                data::_cpu.cpu_max_tempture = cpu_temp.MaxTempture();
+                data::_cpu.cpu_min_tempture = cpu_temp.MinTempture();
+                data::_cpu.cpu_tempture = cpu_temp.GetValue();
+            }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }

@@ -149,10 +149,10 @@ const CPU_TYPE GetCpuType() {
         int info[4];
         __cpuid(info, 0);
 
-        if(!memcmp(info + 1, intel, sizeof intel - 1))
+        if(0 == memcmp(info + 1, intel, sizeof(intel) - 1))
             return CPU_TYPE::CPU_TYPE_INTEL;
-        else if(memcpy(info + 1, amd, sizeof amd - 1))
-            return CPU_TYPE::CPU_TYPE_UNKNOWN;
+        else if(0 == memcmp(info + 1, amd, sizeof(amd) - 1))
+            return CPU_TYPE::CPU_TYPE_AMD10;
         else {
             __cpuid(info, 1);
             unsigned short family = info[0] >> 8 & 0xf;
@@ -170,6 +170,7 @@ const CPU_TYPE GetCpuType() {
             case 0x14:
             case 0x15:
             case 0x16:
+            case 0x17:
                 return CPU_TYPE::CPU_TYPE_AMD10;
 
             default:

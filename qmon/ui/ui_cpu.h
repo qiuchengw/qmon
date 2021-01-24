@@ -10,8 +10,10 @@ namespace ui {
 std::string CpuUsageText(const data::CPUMetric& m) {
     TCHAR buf[255];
     std::wstring all;
-    swprintf_s(buf, 255, L"TEMP:%.1f℃ MAX:%.1f℃ MIN:%.1f℃\n", m.cpu_tempture, m.cpu_max_tempture, m.cpu_min_tempture);
-    all += buf;
+    if(data::_cpu.has_tempture_feature) {
+        swprintf_s(buf, 255, L"TEMP:%.1f℃ MAX:%.1f℃ MIN:%.1f℃\n", m.cpu_tempture, m.cpu_max_tempture, m.cpu_min_tempture);
+        all += buf;
+    }
 
     int i = 0;
     for(auto &t : data::_cpu.max_proc) {
@@ -47,7 +49,7 @@ void ShowCPUUsage() {
             // 抵消掉文字自动根据pos上下左右居中的偏移
             // 参考PlotText的源码
             auto text_offset = ImGui::CalcTextSize(text.c_str()) * 0.5f;
-            ImPlot::PushStyleColor(ImPlotCol_InlayText, ImVec4(0.75, 1, 0, 1));
+            ImPlot::PushStyleColor(ImPlotCol_InlayText, uicfg::_cfg.color_plot_inlay_text);
             ImPlot::PlotText(text.c_str(), x_history + 1, 95.f, false, text_offset);
             ImPlot::PopStyleColor();
 
