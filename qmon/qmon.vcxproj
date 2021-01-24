@@ -181,6 +181,7 @@
     <ClInclude Include="ui\data_thread.h" />
     <ClInclude Include="ui\ui_cpu.h" />
     <ClInclude Include="ui\ui_mem.h" />
+    <ClInclude Include="ui\ui_setting.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>

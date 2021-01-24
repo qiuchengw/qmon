@@ -17,6 +17,7 @@
 #include "ui/data_thread.h"
 #include "ui/ui_mem.h"
 #include "ui/ui_cpu.h"
+#include "ui/ui_setting.h"
 
 namespace ImPlot {
 void ShowDemoWindow(bool* p_open /* = NULL */);
@@ -33,25 +34,6 @@ bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-void ShowSettingBox() {
-    ImGui::Begin("Settings");
-    ImGui::CheckboxFlags("CPU", (unsigned int*) & (uicfg::_cfg.show_cpu), 1);
-    ImGui::SameLine();
-    ImGui::CheckboxFlags("MEM", (unsigned int*) & (uicfg::_cfg.show_mem), 1);
-    ImGui::SameLine();
-    ImGui::CheckboxFlags("DISK", (unsigned int*) & (uicfg::_cfg.show_disk), 1);
-    ImGui::SameLine();
-    ImGui::CheckboxFlags("TRAFFIC", (unsigned int*) & (uicfg::_cfg.show_network), 1);
-
-    ImGui::SliderFloat("Plot Fill", &(uicfg::_cfg.plot_fill_alpha), 0.f, 1.f);
-    ImGui::ColorEdit4("Bkgnd", (float*) & (uicfg::_cfg.color_bkgnd), ImGuiColorEditFlags_NoInputs); // Edit 3 floats representing a color
-    ImGui::SameLine();
-    ImGui::ColorEdit4("Plot Text", (float*) & (uicfg::_cfg.color_plot_inlay_text), ImGuiColorEditFlags_NoInputs); // Edit 3 floats representing a color
-
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::End();
-}
 
 // Main code
 int wWinMain(_In_ HINSTANCE hInstance,
@@ -152,7 +134,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
             ImPlot::ShowDemoWindow(NULL);
 
             // setting box
-            ShowSettingBox();
+            ui::ShowSettingBox();
 
             // mem
             if(uicfg::_cfg.show_mem) {
@@ -269,6 +251,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         break;
     case WM_DESTROY:
         ::PostQuitMessage(0);
+        data::stop_data_thread();
         return 0;
     case WM_DPICHANGED:
         if(ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports) {
