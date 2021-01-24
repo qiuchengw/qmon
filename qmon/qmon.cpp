@@ -34,6 +34,25 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+void ShowSettingBox() {
+    ImGui::Begin("Settings");
+    ImGui::CheckboxFlags("CPU", (unsigned int*) & (uicfg::_cfg.show_cpu), 1);
+    ImGui::SameLine();
+    ImGui::CheckboxFlags("MEM", (unsigned int*) & (uicfg::_cfg.show_mem), 1);
+    ImGui::SameLine();
+    ImGui::CheckboxFlags("DISK", (unsigned int*) & (uicfg::_cfg.show_disk), 1);
+    ImGui::SameLine();
+    ImGui::CheckboxFlags("TRAFFIC", (unsigned int*) & (uicfg::_cfg.show_network), 1);
+
+    ImGui::SliderFloat("Plot Fill", &(uicfg::_cfg.plot_fill_alpha), 0.f, 1.f);
+    ImGui::ColorEdit4("Bkgnd", (float*) & (uicfg::_cfg.color_bkgnd), ImGuiColorEditFlags_NoInputs); // Edit 3 floats representing a color
+    ImGui::SameLine();
+    ImGui::ColorEdit4("Plot Text", (float*) & (uicfg::_cfg.color_plot_inlay_text), ImGuiColorEditFlags_NoInputs); // Edit 3 floats representing a color
+
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+}
+
 // Main code
 int wWinMain(_In_ HINSTANCE hInstance,
              _In_opt_ HINSTANCE,
@@ -65,7 +84,6 @@ int wWinMain(_In_ HINSTANCE hInstance,
     ImGui::CreateContext();
     ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
@@ -104,8 +122,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
     //IM_ASSERT(font != NULL);
 
     // Our state
-    bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 &clear_color = uicfg::_cfg.color_bkgnd;
 
     // 数据刷新线程
     data::run_data_thread();
@@ -128,53 +145,28 @@ int wWinMain(_In_ HINSTANCE hInstance,
         // Start the Dear ImGui frame
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
+
+        // frames
         ImGui::NewFrame();
-
-        ImPlot::ShowDemoWindow(NULL);
-
-        // mem
-        if(uicfg::_cfg.show_mem) {
-            ui::ShowMemUsage();
-        }
-
-        // cpu
-        if(uicfg::_cfg.show_cpu) {
-            ui::ShowCPUUsage();
-        }
-
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
-            static float f = 0.0f;
-            static int counter = 0;
+            ImPlot::ShowDemoWindow(NULL);
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+            // setting box
+            ShowSettingBox();
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Another Window", &show_another_window);
+            // mem
+            if(uicfg::_cfg.show_mem) {
+                ui::ShowMemUsage();
+            }
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if(ImGui::Button("Button"))                             // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+            // cpu
+            if(uicfg::_cfg.show_cpu) {
+                ui::ShowCPUUsage();
+            }
         }
-
-        // 3. Show another simple window.
-        if(show_another_window) {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if(ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
+        ImGui::EndFrame();
 
         // Rendering
-        ImGui::EndFrame();
         g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
         g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);

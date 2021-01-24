@@ -39,7 +39,7 @@ void ShowCPUUsage() {
     if(last.x > 0) {
         if(ImPlot::BeginPlot("##CpuUsage", NULL, NULL, ImVec2(-1, -1), flags, rt_axis, ImPlotAxisFlags_LockMin | ImPlotAxisFlags_NoLabel)) {
             ImPlot::SetLegendLocation(ImPlotLocation_NorthEast);
-            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.fill_alpha);
+            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.plot_fill_alpha);
             ImPlot::PlotShaded("Usage", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), 0, total_usage.offset, 2 * sizeof(float));
             // √Ë±ﬂ
             ImPlot::PlotLine("Usage", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), total_usage.offset, 2 * sizeof(float));

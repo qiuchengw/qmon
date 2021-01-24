@@ -40,12 +40,13 @@ void ShowMemUsage() {
     static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoLabel;
     float x_history = last.x - 100; // 100
     ImPlot::SetNextPlotLimitsX(x_history, last.x, ImGuiCond_Always);
-    ImPlot::SetNextPlotLimitsY(0, data::_mem.max_gb, ImGuiCond_Always);
+    // 内存大小,向上取整数
+    ImPlot::SetNextPlotLimitsY(0, std::ceil(data::_mem.max_gb), ImGuiCond_Always);
     if(last.x > 0) {
         if(ImPlot::BeginPlot("##MemUsage", data::_mem.xlabel, data::_mem.ylabel, ImVec2(-1, -1), flags,
                              rt_axis, ImPlotAxisFlags_LockMin | ImPlotAxisFlags_NoLabel)) {
             ImPlot::SetLegendLocation(ImPlotLocation_NorthEast);
-            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.fill_alpha);
+            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.plot_fill_alpha);
             // 描边
             ImPlot::PlotShaded("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), 0, virtual_used.offset, 2 * sizeof(float));
             ImPlot::PlotLine("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), virtual_used.offset, 2 * sizeof(float));
