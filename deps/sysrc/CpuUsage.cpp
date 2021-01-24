@@ -58,7 +58,6 @@ void CCpuUsage::Update() {
     }
 
     __LoopForProcesses();
-
 }
 
 unsigned long long CCpuUsage::__FileTime2Utc(const FILETIME &ft) {
@@ -90,8 +89,9 @@ double CCpuUsage::__GetCpuUsage(unsigned long long &ullLastTime, unsigned long l
     ullLastIdleTime = _idle_time;
     ullLastTime = _time;
 
-    if(!usage)
+    if (!usage) {
         return -1;
+    }
 
     return (usage - idle) * 100.0 / usage;
 }
@@ -137,10 +137,11 @@ void CCpuUsage::__LoopForProcesses() {
 
     BOOL b;
     PROCESSENTRY32 pe32 = { sizeof(PROCESSENTRY32) };
-    std::map<DWORD, PROCESS_INFO> oldPi;
+    std::map<DWORD, ProcessCpuInfoT> oldPi;
 
-    for(auto &x : m_pairMaxProcesses)
+    for (auto &x : m_pairMaxProcesses) {
         x.second.cpu_usage = 0.0;
+    }
 
     m_mapProcessMap.swap(oldPi);
 
@@ -155,13 +156,14 @@ void CCpuUsage::__LoopForProcesses() {
                 return;
             }
         } else {
-            PROCESS_INFO tp = { 0 };
+            ProcessCpuInfoT tp = { 0 };
             auto it = oldPi.find(pe32.th32ProcessID);
 
             if(it != oldPi.end())
                 tp = it->second;
             else
                 _tcscpy_s(tp.name, pe32.szExeFile);
+            tp.pid = pe32.th32ProcessID;
 
             double usage = __GetCpuUsage(hProcess, tp.last_time, tp.last_system_time);
             CloseHandle(hProcess);

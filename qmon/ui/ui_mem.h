@@ -15,7 +15,7 @@ std::string MemUsageText(const data::MemMetric& m) {
 
     int i = 0;
     for(auto &t : data::_mem.max_proc) {
-        swprintf_s(buf, 255, L"PID:%d MEM:%.2fMB NAME:%s\n", t.pid, Bytes2MB(t.size), t.name);
+        swprintf_s(buf, 255, L"PID:%d MEM:%.2fMB NAME:%s\n", t.pid, Bytes2MB(t.bytes), t.name);
         i++;
         all += buf;
     }
@@ -38,18 +38,27 @@ void ShowMemUsage() {
 
     ImPlotFlags flags = 0;
     static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoLabel;
-    //ImPlot::SetNextPlotLimitsX(0, data::_mem.max_bytes, ImGuiCond_Always);
-    ImPlot::SetNextPlotLimitsX(last.x - 100, last.x, ImGuiCond_Always);
+    float x_history = last.x - 100; // 100
+    ImPlot::SetNextPlotLimitsX(x_history, last.x, ImGuiCond_Always);
     ImPlot::SetNextPlotLimitsY(0, data::_mem.max_gb, ImGuiCond_Always);
     if(last.x > 0) {
         if(ImPlot::BeginPlot("##MemUsage", data::_mem.xlabel, data::_mem.ylabel, ImVec2(-1, -1), flags,
                              rt_axis, ImPlotAxisFlags_LockMin | ImPlotAxisFlags_NoLabel)) {
-            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.55f);
+            ImPlot::SetLegendLocation(ImPlotLocation_NorthEast);
+            ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.fill_alpha);
+            // 描边
             ImPlot::PlotShaded("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), 0, virtual_used.offset, 2 * sizeof(float));
+            ImPlot::PlotLine("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), virtual_used.offset, 2 * sizeof(float));
             ImPlot::PlotShaded("PhysUsed", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), 0, phys_used.offset, 2 * sizeof(float));
+            ImPlot::PlotLine("PhysUsed", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), phys_used.offset, 2 * sizeof(float));
 
             // max usage process
-            ImPlot::PlotText(MemUsageText(data::_mem).c_str(), last.x - 20.5, data::_mem.max_gb * 0.9);
+            std::string text = MemUsageText(data::_mem);
+            // 抵消掉文字自动根据pos上下左右居中的偏移
+            auto text_offset = ImGui::CalcTextSize(text.c_str()) * 0.5f;
+            ImPlot::PushStyleColor(ImPlotCol_InlayText, ImVec4(0.75, 1, 0, 1));
+            ImPlot::PlotText(text.c_str(), x_history + 1, data::_mem.max_gb * 0.95f, false, text_offset);
+            ImPlot::PopStyleColor();
 
             ImPlot::EndPlot();
             ImPlot::PopStyleVar();

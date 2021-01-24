@@ -2,7 +2,6 @@
 
 namespace uicfg {
 struct Styles {
-
 };
 
 struct Config {
@@ -11,6 +10,7 @@ struct Config {
     bool show_disk = true;
     bool show_network = true;
 
-
+    // styles
+    float fill_alpha = 0.5f;
 } _cfg;
 }

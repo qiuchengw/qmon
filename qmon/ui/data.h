@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string>
 #include "sysrc/MemoryUsage.h"
+#include "sysrc/CpuUsage.h"
 
 // 数据中心
 namespace data {
@@ -67,11 +68,25 @@ struct MemMetric {
     // 物理内存历史使用的大小
     ScrollingBuffer page_used_gb;
 
-    // 当前的状态
-    MEMORYSTATUSEX status;
-
-    // 当前使用率最大的几个进程！
-    ProcessT max_proc[3] = { 0 };
+    // 当前内存使用率最大的几个进程！
+    ProcessMemInfoT max_proc[3] = { 0 };
 } _mem;
+
+// 内存使用率
+struct CPUMetric {
+    // 核心数
+    int cpu_count = 1;
+
+    // 温度
+    float cpu_tempture = 0.f;
+    float cpu_max_tempture = 0.f;
+    float cpu_min_tempture = 0.f;
+
+    // 整体cpu占用
+    ScrollingBuffer total_usage;
+
+    // 当前CPU使用率最大的几个进程！
+    ProcessCpuInfoT max_proc[3] = { 0 };
+} _cpu;
 
 }

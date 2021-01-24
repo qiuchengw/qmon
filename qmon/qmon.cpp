@@ -3,7 +3,11 @@
 #include <dinput.h>
 #include <tchar.h>
 
+#ifndef IMGUI_DEFINE_MATH_OPERATORS
+#define IMGUI_DEFINE_MATH_OPERATORS
+#endif
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_dx9.h"
 #include "imgui/backends/imgui_impl_win32.h"
 #include "implot/implot.h"
@@ -12,6 +16,7 @@
 // ui
 #include "ui/data_thread.h"
 #include "ui/ui_mem.h"
+#include "ui/ui_cpu.h"
 
 namespace ImPlot {
 void ShowDemoWindow(bool* p_open /* = NULL */);
@@ -130,6 +135,11 @@ int wWinMain(_In_ HINSTANCE hInstance,
         // mem
         if(uicfg::_cfg.show_mem) {
             ui::ShowMemUsage();
+        }
+
+        // cpu
+        if(uicfg::_cfg.show_cpu) {
+            ui::ShowCPUUsage();
         }
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.

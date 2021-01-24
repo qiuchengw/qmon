@@ -111,6 +111,9 @@
     <ClInclude Include="util.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
+    <ClInclude Include="ui\ui_cpu.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">

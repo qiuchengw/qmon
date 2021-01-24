@@ -66,8 +66,9 @@ void CMemoryUsage::__LoopForProcesses() {
     BOOL b;
     PROCESSENTRY32 pe32 = { sizeof(PROCESSENTRY32) };
 
-    for(auto &x : m_maxProcesses)
-        x.size = 0;
+    for (auto &x : m_maxProcesses) {
+        x.bytes = 0;
+    }
 
     for(b = Process32First(hProcessSnap, &pe32); b; b = Process32Next(hProcessSnap, &pe32)) {
         if(!pe32.th32ProcessID)continue;
@@ -84,13 +85,13 @@ void CMemoryUsage::__LoopForProcesses() {
 
             if(GetProcessMemoryInfo(hProcess, &pmc, sizeof pmc))
                 for(size_t i = 0; i < _countof(m_maxProcesses); ++i)
-                    if(m_maxProcesses[i].size < pmc.WorkingSetSize) {
+                    if(m_maxProcesses[i].bytes < pmc.WorkingSetSize) {
                         for(size_t j = _countof(m_maxProcesses) - 1; j > i; --j)
                             m_maxProcesses[j] = m_maxProcesses[j - 1];
 
                         _tcscpy_s(m_maxProcesses[i].name, pe32.szExeFile);
                         m_maxProcesses[i].pid = pe32.th32ProcessID;
-                        m_maxProcesses[i].size = pmc.WorkingSetSize;
+                        m_maxProcesses[i].bytes = pmc.WorkingSetSize;
                         break;
                     }
 

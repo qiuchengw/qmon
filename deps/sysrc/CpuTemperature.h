@@ -10,6 +10,15 @@ public:
     const std::basic_string<TCHAR> ToString()const;
     const std::wstring ToLongString()const;
     const double GetValue()const;
+    
+    inline float MaxTempture() const {
+        return m_sMax;
+    }
+
+    inline float MinTempture() const {
+        return m_sMin;
+    }
+
     bool Init();
     void Update();
     void Reset();
