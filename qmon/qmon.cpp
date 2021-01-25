@@ -17,6 +17,7 @@
 #include "ui/data_thread.h"
 #include "ui/ui_mem.h"
 #include "ui/ui_cpu.h"
+#include "ui/ui_disk.h"
 #include "ui/ui_setting.h"
 
 namespace ImPlot {
@@ -144,6 +145,11 @@ int wWinMain(_In_ HINSTANCE hInstance,
             // cpu
             if(uicfg::_cfg.show_cpu) {
                 ui::ShowCPUUsage();
+            }
+
+            // disk
+            if(uicfg::_cfg.show_disk) {
+                ui::ShowDiskUsage();
             }
         }
         ImGui::EndFrame();

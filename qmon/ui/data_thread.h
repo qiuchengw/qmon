@@ -11,6 +11,42 @@
 namespace data {
 static std::atomic_bool _data_thread_stop = false;
 
+// 分区盘符
+class Partion {
+public:
+    static std::vector<std::string> disk_partion() {
+        DWORD dwLen = GetLogicalDriveStrings(0, NULL);	//获取系统字符串长度.
+        char buf[1024] = {0}; // 不太可能超过1024个长度
+        GetLogicalDriveStringsA(dwLen, buf);		//获取盘符字符串.
+
+        std::vector<std::string> ret;
+        char *p = buf;
+        while(*p != '\0') {
+            int a = strlen(p);
+            ret.push_back(p);
+            p += strlen(p) + 1;			//定位到下一个字符串.加一是为了跳过'\0'字符串.
+        }
+        return ret;
+    }
+
+    static ULARGE_INTEGER disk_usages(std::vector<PartionInfo>& parts) {
+        parts.clear();
+        ULARGE_INTEGER total = { 0 };
+        for(auto& parti : disk_partion()) {
+            PartionInfo pi;
+            pi.part_name = parti;
+            GetDiskFreeSpaceExA(parti.c_str(),
+                                (PULARGE_INTEGER)&pi.free_user,
+                                (PULARGE_INTEGER)&pi.total,
+                                (PULARGE_INTEGER)&pi.free_total
+                               );
+            total.QuadPart += pi.total.QuadPart;
+            parts.push_back(pi);
+        }
+        return total;
+    }
+};
+
 void run_data_thread() {
     std::thread th([&]() {
         CMemoryUsage mem;
@@ -29,7 +65,7 @@ void run_data_thread() {
         data::_cpu.has_tempture_feature = cpu_temp.Init();
 
         // !!!!data的访问是非线程安全，但是无所谓，偷点懒
-        while(!_data_thread_stop) {
+        for(ULONGLONG idx = 0; !_data_thread_stop; idx++) {
             mem.Update();
             cpu_usage.Update();
             cpu_temp.Update();
@@ -53,6 +89,10 @@ void run_data_thread() {
                 data::_cpu.cpu_tempture = cpu_temp.GetValue();
             }
 
+            // 刷新磁盘占用
+            if(idx % 10 == 0) {  // 10 * 0.5 s 刷新一次
+                data::_disk.total = Partion::disk_usages(data::_disk.parts);
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     });

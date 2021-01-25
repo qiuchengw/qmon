@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <vector>
 #include "sysrc/MemoryUsage.h"
 #include "sysrc/CpuUsage.h"
 
@@ -89,5 +90,18 @@ struct CPUMetric {
     // 当前CPU使用率最大的几个进程！
     ProcessCpuInfoT max_proc[3] = { 0 };
 } _cpu;
+
+struct PartionInfo {
+    std::string part_name;
+    ULARGE_INTEGER free_user;
+    ULARGE_INTEGER total;
+    ULARGE_INTEGER free_total;
+};
+
+struct DiskMetric {
+    ULARGE_INTEGER total;
+    // 分区
+    std::vector<PartionInfo> parts;
+} _disk;
 
 }
