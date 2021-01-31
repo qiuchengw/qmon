@@ -108,7 +108,8 @@ public:
         mem_.CopyProcessT(data::_mem.max_proc, _countof(data::_mem.max_proc));
 
         // Ë¢ÐÂcpuÕ¼ÓÃ
-        data::_cpu.cpu_count = cpu_.CpuCount();
+        // data::_cpu.cpu_count = cpu_.CpuCount();
+        data::_cpu.tm_now = tm_now;
         data::_cpu.total_usage.AddPoint(tm_now, cpu_.GetValue());
         cpu_.CopyProcessT(data::_cpu.max_proc, _countof(data::_cpu.max_proc));
 

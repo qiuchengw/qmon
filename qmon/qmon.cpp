@@ -159,6 +159,11 @@ int wWinMain(_In_ HINSTANCE hInstance,
                 ui::ShowCPUUsage();
             }
 
+            // cpu thread
+            if(uicfg::_cfg.show_cpu_thread) {
+                ui::ShowCpuThreadUsage();
+            }
+
             // disk
             if(uicfg::_cfg.show_disk) {
                 ui::ShowDiskUsage();
@@ -238,8 +243,9 @@ void CleanupDeviceD3D() {
 void ResetDevice() {
     ImGui_ImplDX9_InvalidateDeviceObjects();
     HRESULT hr = g_pd3dDevice->Reset(&g_d3dpp);
-    if(hr == D3DERR_INVALIDCALL)
-        IM_ASSERT(0);
+    if(hr == D3DERR_INVALIDCALL) {
+        // IM_ASSERT(0);
+    }
     ImGui_ImplDX9_CreateDeviceObjects();
 }
 

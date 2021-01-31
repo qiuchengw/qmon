@@ -61,4 +61,55 @@ void ShowCPUUsage() {
     }
     ImGui::End();
 }
+
+// Example for Tables section. Generates a quick and simple shaded line plot. See implementation at bottom.
+void Sparkline(const char* id, const float* values, int count, float min_v, float max_v, int offset, const ImVec4& col, const ImVec2& size) {
+    ImPlot::PushStyleVar(ImPlotStyleVar_PlotPadding, ImVec2(0, 0));
+    ImPlot::SetNextPlotLimits(0, count - 1, min_v, max_v, ImGuiCond_Always);
+    if(ImPlot::BeginPlot(id, 0, 0, size, ImPlotFlags_CanvasOnly | ImPlotFlags_NoChild, ImPlotAxisFlags_NoDecorations, ImPlotAxisFlags_NoDecorations)) {
+        ImPlot::PushStyleColor(ImPlotCol_Line, col);
+        ImPlot::PlotLine(id, values, count, 1, 0, offset);
+        ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.plot_fill_alpha);
+        ImPlot::PlotShaded(id, values, count, 0, 1, 0, offset);
+        ImPlot::PopStyleVar();
+        ImPlot::PopStyleColor();
+        ImPlot::EndPlot();
+    }
+    ImPlot::PopStyleVar();
+}
+
+// 单个Thread的cpu使用率
+void ShowCpuThreadUsage() {
+    if((data::_cpu.cpu_thread_usage.size() <= 0) || (data::_cpu.cpu_thread_usage[0].last().x <= 0)) {
+        return;
+    }
+
+    ImGui::Begin("CPU Thread", &uicfg::_cfg.show_cpu_thread);
+    ImGuiTableFlags flags = ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_RowBg ;
+    if(ImGui::BeginTable("##cpu_table", 3, flags, ImVec2(-1, 0))) {
+        ImGui::TableSetupColumn("#", ImGuiTableColumnFlags_WidthFixed, 22.0f);
+        ImGui::TableSetupColumn("Load", ImGuiTableColumnFlags_WidthFixed, 30.0f);
+        ImGui::TableSetupColumn("Usage");
+        ImGui::TableHeadersRow();
+        ImPlot::PushColormap(ImPlotColormap_Cool);
+        for(int row = 0; row < data::_cpu.cpu_count; row++) {
+            int size = 0;
+            auto usage = data::_cpu.cpu_thread_usage[row].CopyY(size, true);
+            if(usage[size - 1] > uicfg::_cfg.cpu_percent_lg) {
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("#%d", row);
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%.1f%%", usage[size - 1]);
+                ImGui::TableSetColumnIndex(2);
+                ImGui::PushID(row);
+                Sparkline("##spark_cpu_usage", &(usage[0]), usage.size(), 0, 100.0f, 0, ImPlot::GetColormapColor(row), ImVec2(-1, 35));
+                ImGui::PopID();
+            }
+        }
+        ImPlot::PopColormap();
+        ImGui::EndTable();
+    }
+    ImGui::End();
+}
 }
