@@ -178,7 +178,8 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ui\cfg.h" />
     <ClInclude Include="ui\data.h" />
-    <ClInclude Include="ui\data_thread.h" />
+    <ClInclude Include="ui\pdh.h" />
+    <ClInclude Include="ui\pdh_data.h" />
     <ClInclude Include="ui\ui_cpu.h" />
     <ClInclude Include="ui\ui_disk.h" />
     <ClInclude Include="ui\ui_mem.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\deps\sysrc\MemoryUsage.cpp" />
     <ClCompile Include="..\deps\sysrc\Temperature.cpp" />
     <ClCompile Include="qmon.cpp" />
+    <ClCompile Include="ui\pdh.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

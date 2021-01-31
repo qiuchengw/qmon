@@ -5,6 +5,7 @@
 #include <vector>
 #include "sysrc/MemoryUsage.h"
 #include "sysrc/CpuUsage.h"
+#include <mutex>
 
 // 数据中心
 namespace data {
@@ -57,11 +58,15 @@ struct ScrollingBuffer {
     }
 };
 
+// 数据保护
+std::mutex _data_mtx;
+
 // 内存使用率
 struct MemMetric {
     const char* xlabel = "timeline";
     const char* ylabel = "GB";
-    float max_gb = 0; // 大小
+    // 物理内存大小
+    float max_gb = 0;
 
     // 物理内存历史使用的大小
     ScrollingBuffer phys_used_gb;
@@ -75,6 +80,9 @@ struct MemMetric {
 
 // 内存使用率
 struct CPUMetric {
+    // 当前时间点
+    double tm_now = 0; // ImGui::GetTime();
+
     // 核心数
     int cpu_count = 1;
 
@@ -86,6 +94,10 @@ struct CPUMetric {
 
     // 整体cpu占用
     ScrollingBuffer total_usage;
+
+    // 单个cpu(thread)使用率
+    // size 为 cpu_count
+    std::vector<ScrollingBuffer> cpu_thread_usage;
 
     // 当前CPU使用率最大的几个进程！
     ProcessCpuInfoT max_proc[3] = { 0 };

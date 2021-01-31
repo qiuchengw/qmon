@@ -9,6 +9,8 @@
 namespace ui {
 // CPUÊ¹ÓÃÂÊ
 void ShowDiskUsage() {
+    std::lock_guard<std::mutex> lg(data::_data_mtx);
+
     using namespace uicfg;
     auto& d = data::_disk.parts;
     if(d.size() == 0) {

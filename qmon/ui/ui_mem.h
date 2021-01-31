@@ -24,6 +24,8 @@ std::string MemUsageText(const data::MemMetric& m) {
 
 // 内存使用率
 void ShowMemUsage() {
+    std::lock_guard<std::mutex> lg(data::_data_mtx);
+
     using namespace uicfg;
     ImGui::Begin("MEM usage", &_cfg.show_mem);
     const ImVec2 & last = data::_mem.phys_used_gb.last();

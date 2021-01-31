@@ -26,6 +26,8 @@ std::string CpuUsageText(const data::CPUMetric& m) {
 
 // CPU π”√¬ 
 void ShowCPUUsage() {
+    std::lock_guard<std::mutex> lg(data::_data_mtx);
+
     using namespace uicfg;
     ImGui::Begin("CPU usage", &_cfg.show_cpu);
     auto &total_usage = data::_cpu.total_usage;

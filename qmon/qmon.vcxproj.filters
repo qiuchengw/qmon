@@ -105,9 +105,6 @@
     <ClInclude Include="ui\cfg.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
-    <ClInclude Include="ui\data_thread.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="util.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
@@ -118,6 +115,12 @@
       <Filter>头文件\ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\ui_disk.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\pdh.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\pdh_data.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="..\deps\imgui\imgui_demo.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\pdh.cpp">
+      <Filter>头文件\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
