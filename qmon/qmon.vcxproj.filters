@@ -123,6 +123,9 @@
     <ClInclude Include="ui\pdh_data.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
+    <ClInclude Include="ui\ui_net.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">

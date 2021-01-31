@@ -17,6 +17,7 @@
 #include "ui/ui_mem.h"
 #include "ui/ui_cpu.h"
 #include "ui/ui_disk.h"
+#include "ui/ui_net.h"
 #include "ui/ui_setting.h"
 #include "ui/pdh_data.h"
 
@@ -93,6 +94,7 @@ int wWinMain(_In_ HINSTANCE hInstance,
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
+    style.WindowPadding = ImVec2(0, 0);
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -116,6 +118,9 @@ int wWinMain(_In_ HINSTANCE hInstance,
     // Our state
     ImVec4 &clear_color = uicfg::_cfg.color_bkgnd;
 
+    ImPlotStyle& plot_style = ImPlot::GetStyle();
+    plot_style.PlotMinSize = ImVec2(100, 100);
+    plot_style.PlotPadding = ImVec2(5, 5);
     // 数据刷新
     if(!_pdh.Init()) {
         return -1;
@@ -167,6 +172,11 @@ int wWinMain(_In_ HINSTANCE hInstance,
             // disk
             if(uicfg::_cfg.show_disk) {
                 ui::ShowDiskUsage();
+            }
+
+            // net
+            if(uicfg::_cfg.show_network) {
+                ui::ShowNetUsage();
             }
         }
         ImGui::EndFrame();

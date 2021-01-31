@@ -6,6 +6,8 @@
 #include "sysrc/MemoryUsage.h"
 #include "sysrc/CpuUsage.h"
 #include <mutex>
+#include <limits>
+#include <algorithm>
 
 // 数据中心
 namespace data {
@@ -25,6 +27,18 @@ public:
 
     bool Empty() const {
         return d.size() <= 0;
+    }
+
+    bool MinMaxVal(float& min_val, float& max_val) {
+        if(Empty()) {
+            return false;
+        }
+        auto v = std::minmax_element(d.begin(), d.end(), [](auto & a, auto & b) {
+            return a.y > b.y;
+        });
+        max_val = v.first->y;
+        min_val = v.second->y;
+        return true;
     }
 
     // fill_max_n : true, 补全到全部_MaxN 个元素（不够的填0）
@@ -87,8 +101,8 @@ typedef ScrollingBufferT<200> ScrollingBuffer200;
 typedef ScrollingBufferT<100> ScrollingBuffer100;
 typedef ScrollingBufferT<50> ScrollingBuffer50;
 
-// 数据保护
-std::mutex _data_mtx;
+// 当前时间点
+double _tm_now = 0; // ImGui::GetTime();
 
 // 内存使用率
 struct MemMetric {
@@ -109,9 +123,6 @@ struct MemMetric {
 
 // 内存使用率
 struct CPUMetric {
-    // 当前时间点
-    double tm_now = 0; // ImGui::GetTime();
-
     // 核心数
     int cpu_count = 1;
 
@@ -143,6 +154,33 @@ struct DiskMetric {
     ULARGE_INTEGER total;
     // 分区
     std::vector<PartionInfo> parts;
+
+    // Read Bytes
+    ScrollingBuffer100 read_bps;
+    // Write bytes
+    ScrollingBuffer100 write_bps;
+
+    void MinMax(float &min_v, float &max_v) {
+        read_bps.MinMaxVal(min_v, max_v);
+        float min_v1, max_v1;
+        write_bps.MinMaxVal(min_v1, max_v1);
+        max_v = max(max_v, max_v1);
+    }
+
 } _disk;
+
+// 网络数据使用率
+struct EtherNet {
+    // 网络收发数据统计
+    ScrollingBuffer100 recv_bps;
+    ScrollingBuffer100 send_bps;
+
+    void MinMax(float &min_v, float &max_v) {
+        recv_bps.MinMaxVal(min_v, max_v);
+        float min_v1, max_v1;
+        send_bps.MinMaxVal(min_v1, max_v1);
+        max_v = max(max_v, max_v1);
+    }
+} _net;
 
 }

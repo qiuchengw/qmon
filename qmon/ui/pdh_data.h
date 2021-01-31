@@ -72,9 +72,26 @@ public:
         for(int i = 0; i < data::_cpu.cpu_count; i++) {
             swprintf_s(buf, MAX_PATH, L"\\Processor(%d)\\%% Processor Time\0", i);
             AddPdhCallback(buf, [ = ](double val) {
-                data::_cpu.cpu_thread_usage[i].AddPoint(data::_cpu.tm_now, val);
+                data::_cpu.cpu_thread_usage[i].AddPoint(data::_tm_now, val);
             });
         }
+
+        // 初始化网络收发
+        AddPdhCallback(df_PDH_ETHERNETRECV_BYTES, [ = ](double val) {
+            data::_net.recv_bps.AddPoint(data::_tm_now, Bytes2KB(val));
+        });
+        AddPdhCallback(df_PDH_ETHERNETSEND_BYTES, [ = ](double val) {
+            data::_net.send_bps.AddPoint(data::_tm_now, Bytes2KB(val));
+        });
+
+
+        // 磁盘
+        AddPdhCallback(df_PDH_DISKREAD_BYTES, [ = ](double val) {
+            data::_disk.read_bps.AddPoint(data::_tm_now, Bytes2KB(val));
+        });
+        AddPdhCallback(df_PDH_DISKWRITE_BYTES, [ = ](double val) {
+            data::_disk.write_bps.AddPoint(data::_tm_now, Bytes2KB(val));
+        });
         return TRUE;
     }
 
@@ -84,8 +101,8 @@ public:
         if(ERROR_SUCCESS != phd_.CollectQueryData()) {
             return;
         }
-        // mem
 
+        // 刷新一下
         for(auto fn : getters_) {
             fn();
         }
@@ -101,16 +118,15 @@ public:
         cpu_temp_.Update();
 
         // 刷新内存占用
+        data::_tm_now = ImGui::GetTime();
         data::_mem.max_gb = Bytes2GB(mem_.phys_total_bytes());
-        auto tm_now = ImGui::GetTime();
-        data::_mem.phys_used_gb.AddPoint(tm_now, Bytes2GB(mem_.phys_used_bytes()));
-        data::_mem.page_used_gb.AddPoint(tm_now, Bytes2GB(mem_.page_used_bytes()));
+        data::_mem.phys_used_gb.AddPoint(data::_tm_now, Bytes2GB(mem_.phys_used_bytes()));
+        data::_mem.page_used_gb.AddPoint(data::_tm_now, Bytes2GB(mem_.page_used_bytes()));
         mem_.CopyProcessT(data::_mem.max_proc, _countof(data::_mem.max_proc));
 
         // 刷新cpu占用
         // data::_cpu.cpu_count = cpu_.CpuCount();
-        data::_cpu.tm_now = tm_now;
-        data::_cpu.total_usage.AddPoint(tm_now, cpu_.GetValue());
+        data::_cpu.total_usage.AddPoint(_tm_now, cpu_.GetValue());
         cpu_.CopyProcessT(data::_cpu.max_proc, _countof(data::_cpu.max_proc));
 
         // 刷新cpu温度

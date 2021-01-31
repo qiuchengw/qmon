@@ -24,8 +24,6 @@ std::string MemUsageText(const data::MemMetric& m) {
 
 // 内存使用率
 void ShowMemUsage() {
-    std::lock_guard<std::mutex> lg(data::_data_mtx);
-
     using namespace uicfg;
     ImGui::Begin("MEM usage", &_cfg.show_mem);
     const ImVec2 & last = data::_mem.phys_used_gb.last();
@@ -50,10 +48,10 @@ void ShowMemUsage() {
             ImPlot::SetLegendLocation(ImPlotLocation_NorthEast);
             ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.plot_fill_alpha);
             // 描边
-            ImPlot::PlotShaded("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), 0, virtual_used.offset, 2 * sizeof(float));
-            ImPlot::PlotLine("CommitUsed", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), virtual_used.offset, 2 * sizeof(float));
-            ImPlot::PlotShaded("PhysUsed", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), 0, phys_used.offset, 2 * sizeof(float));
-            ImPlot::PlotLine("PhysUsed", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), phys_used.offset, 2 * sizeof(float));
+            ImPlot::PlotShaded("CommitUsed(GB)", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), 0, virtual_used.offset, 2 * sizeof(float));
+            ImPlot::PlotLine("CommitUsed(GB)", &virtual_used.d[0].x, &virtual_used.d[0].y, virtual_used.d.size(), virtual_used.offset, 2 * sizeof(float));
+            ImPlot::PlotShaded("PhysUsed(GB)", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), 0, phys_used.offset, 2 * sizeof(float));
+            ImPlot::PlotLine("PhysUsed(GB)", &phys_used.d[0].x, &phys_used.d[0].y, phys_used.d.size(), phys_used.offset, 2 * sizeof(float));
 
             // max usage process
             std::string text = MemUsageText(data::_mem);

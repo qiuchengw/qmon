@@ -18,6 +18,7 @@ inline std::wstring Bytes2String(unsigned long long sz) {
     return ret.str();
 }
 
+#define Bytes2KB(sz) ((double)(sz) / 1024)
 #define Bytes2MB(sz) ((double)(sz) / 1024 / 1024)
 #define Bytes2GB(sz) ((double)(sz) / 1024 / 1024 / 1024)
 

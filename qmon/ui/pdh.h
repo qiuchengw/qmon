@@ -120,6 +120,9 @@
 #define df_PDH_ETHERNETRECV_BYTES L"\\Network Interface(*)\\Bytes Received/sec" // 이더넷 수신량(Bytes/sec)
 #define df_PDH_ETHERNETSEND_BYTES L"\\Network Interface(*)\\Bytes Sent/sec" // 이더넷 송신량(Bytes/sec)
 
+// disk
+#define df_PDH_DISKREAD_BYTES L"\\PhysicalDisk(*)\\Disk Read Bytes/sec" // 이더넷 수신량(Bytes/sec)
+#define df_PDH_DISKWRITE_BYTES L"\\PhysicalDisk(*)\\Disk Write Bytes/sec" // 이더넷 수신량(Bytes/sec)
 
 #define df_MAX_RAW 20
 

@@ -26,8 +26,6 @@ std::string CpuUsageText(const data::CPUMetric& m) {
 
 // CPU π”√¬ 
 void ShowCPUUsage() {
-    std::lock_guard<std::mutex> lg(data::_data_mtx);
-
     using namespace uicfg;
     ImGui::Begin("CPU usage", &_cfg.show_cpu);
     auto &total_usage = data::_cpu.total_usage;
@@ -42,9 +40,9 @@ void ShowCPUUsage() {
         if(ImPlot::BeginPlot("##CpuUsage", NULL, NULL, ImVec2(-1, -1), flags, rt_axis, ImPlotAxisFlags_LockMin | ImPlotAxisFlags_NoLabel)) {
             ImPlot::SetLegendLocation(ImPlotLocation_NorthEast);
             ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, uicfg::_cfg.plot_fill_alpha);
-            ImPlot::PlotShaded("Usage", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), 0, total_usage.offset, 2 * sizeof(float));
+            ImPlot::PlotShaded("Usage(%)", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), 0, total_usage.offset, 2 * sizeof(float));
             // √Ë±ﬂ
-            ImPlot::PlotLine("Usage", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), total_usage.offset, 2 * sizeof(float));
+            ImPlot::PlotLine("Usage(%)", &total_usage.d[0].x, &total_usage.d[0].y, total_usage.d.size(), total_usage.offset, 2 * sizeof(float));
 
             // max usage process
             std::string text = CpuUsageText(data::_cpu);
@@ -95,7 +93,7 @@ void ShowCpuThreadUsage() {
         for(int row = 0; row < data::_cpu.cpu_count; row++) {
             int size = 0;
             auto usage = data::_cpu.cpu_thread_usage[row].CopyY(size, true);
-            if(usage[size - 1] > uicfg::_cfg.cpu_percent_lg) {
+            if(usage[size - 1] >= uicfg::_cfg.cpu_percent_lg) {
                 ImGui::TableNextRow();
                 ImGui::TableSetColumnIndex(0);
                 ImGui::Text("#%d", row);
