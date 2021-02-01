@@ -5,3 +5,9 @@
 	path = deps/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
+[submodule "deps/ImGuiAl"]
+	path = deps/ImGuiAl
+	url = https://github.com/leiradel/ImGuiAl.git
+[submodule "deps/ImHotKey"]
+	path = deps/ImHotKey
+	url = https://github.com/CedricGuillemet/ImHotKey.git

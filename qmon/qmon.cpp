@@ -1,4 +1,6 @@
-﻿#include <d3d9.h>
+﻿#include "qmon.h"
+
+#include <d3d9.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
@@ -11,6 +13,7 @@
 #include "imgui/backends/imgui_impl_dx9.h"
 #include "imgui/backends/imgui_impl_win32.h"
 #include "implot/implot.h"
+#include "ImGuiAl/term/imguial_term.h"
 #pragma comment(lib, "d3d9.lib")
 
 // ui
@@ -45,6 +48,13 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+static const int LOG_BUFFER_LEN = 4096;
+
+void LogWnd(ImGuiAl::BufferedLog<LOG_BUFFER_LEN>& _log) {
+    ImGui::Begin("##Log");
+    _log.draw(ImVec2(300, 350));
+    ImGui::End();
+}
 
 // Main code
 int wWinMain(_In_ HINSTANCE hInstance,
@@ -87,6 +97,8 @@ int wWinMain(_In_ HINSTANCE hInstance,
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
+
+    ImGuiAl::BufferedLog<4096> _log;
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
@@ -149,6 +161,8 @@ int wWinMain(_In_ HINSTANCE hInstance,
         // frames
         ImGui::NewFrame();
         {
+            LogWnd(_log);
+
             ImPlot::ShowDemoWindow(NULL);
 
             // setting box

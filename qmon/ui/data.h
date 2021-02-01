@@ -164,7 +164,7 @@ struct DiskMetric {
         read_bps.MinMaxVal(min_v, max_v);
         float min_v1, max_v1;
         write_bps.MinMaxVal(min_v1, max_v1);
-        max_v = max(max_v, max_v1);
+        max_v = std::max(max_v, max_v1);
     }
 
 } _disk;
@@ -179,7 +179,7 @@ struct EtherNet {
         recv_bps.MinMaxVal(min_v, max_v);
         float min_v1, max_v1;
         send_bps.MinMaxVal(min_v1, max_v1);
-        max_v = max(max_v, max_v1);
+        max_v = std::max(max_v, max_v1);
     }
 } _net;
 

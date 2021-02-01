@@ -31,6 +31,15 @@
     <Filter Include="头文件\ui">
       <UniqueIdentifier>{8a176949-4a10-4084-9606-503a1b1f2297}</UniqueIdentifier>
     </Filter>
+    <Filter Include="deps\al">
+      <UniqueIdentifier>{14481c5c-4db9-45ef-8d91-6e5e88d4b704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\al\term">
+      <UniqueIdentifier>{b7f597ae-e138-4ceb-a854-cb336df13e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\al\msgbox">
+      <UniqueIdentifier>{1191d2c8-64c1-4d7d-85f1-4f03d7c9323c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -126,6 +135,12 @@
     <ClInclude Include="ui\ui_net.h">
       <Filter>头文件\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\deps\ImGuiAl\msgbox\imguial_msgbox.h">
+      <Filter>deps\al\msgbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\ImGuiAl\term\imguial_term.h">
+      <Filter>deps\al\term</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qmon.cpp">
@@ -190,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="ui\pdh.cpp">
       <Filter>头文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\ImGuiAl\msgbox\imguial_msgbox.cpp">
+      <Filter>deps\al\msgbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\ImGuiAl\term\imguial_term.cpp">
+      <Filter>deps\al\term</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
